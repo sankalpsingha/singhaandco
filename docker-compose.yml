@@ -1,23 +1,23 @@
 version: '3.3'
 services:
-  swag:
-    image: lscr.io/linuxserver/swag
-    container_name: swag
-    depends_on:
-      - wordpress
-    volumes:
-      - ./config:/config
-      - ./nginx-default:/config/nginx/site-confs/default
-    environment:
-      - EMAIL=email@example.com
-      - URL=www.singhaandco.com
-      - VALIDATION=http
-      - TZ=asia/kolkata
-      - PUID=500
-      - PGID=500
-    ports:
-      - "443:443"
-      - "80:80"
+  # swag:
+  #   image: lscr.io/linuxserver/swag
+  #   container_name: swag
+  #   depends_on:
+  #     - wordpress
+  #   volumes:
+  #     - ./config:/config
+  #     - ./nginx-default:/config/nginx/site-confs/default
+  #   environment:
+  #     - EMAIL=email@example.com
+  #     - URL=www.singhaandco.com
+  #     - VALIDATION=http
+  #     - TZ=asia/kolkata
+  #     - PUID=500
+  #     - PGID=500
+  #   ports:
+  #     - "443:443"
+  #     - "80:80"
   wordpress_db:
     image: mysql:5.7
     platform: linux/x86_64
@@ -38,11 +38,13 @@ services:
     hostname: wordpress
     depends_on:
       - wordpress_db
+    ports:
+      - "8000:80"
     volumes:
-      - ./wp-content:/var/www/html/wp-content
+      - ./wordpress:/var/www/html
       - ./custom.ini:/usr/local/etc/php/conf.d/custom.ini
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: wordpress_db
       WORDPRESS_DB_USER: wp_db_user
       WORDPRESS_DB_PASSWORD: wp_db_pass
       WORDPRESS_DB_NAME: wp_db_name
