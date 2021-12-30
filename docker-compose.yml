@@ -40,6 +40,8 @@ services:
       - wordpress_db
     ports:
       - "8000:80"
+    expose:
+      - 80
     volumes:
       - ./wordpress:/var/www/html
       - ./custom.ini:/usr/local/etc/php/conf.d/custom.ini
